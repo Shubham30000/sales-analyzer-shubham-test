@@ -1,69 +1,62 @@
-# CSV Data Sum Calculator
+# Sales Analyzer
 
-## Live Demo
-Check out the live version here: [DEPLOYMENT_URL_PLACEHOLDER](DEPLOYMENT_URL_PLACEHOLDER)
+## 🚀 Live Demo
 
-## Overview
-This project provides a simple, single-page web application that reads numerical data from a `data.csv` file, calculates the total sum of the values, and displays it prominently on the page. It's built with responsiveness in mind using Tailwind CSS from CDN and plain JavaScript for data processing.
+Experience the live application here: [https://Shubham30000.github.io/sales-analyzer-shubham-test/](https://Shubham30000.github.io/sales-analyzer-shubham-test/)
 
-## Features
-*   **CSV Data Reading:** Fetches and parses local `data.csv` file.
-*   **Sum Calculation:** Automatically sums numerical values found in the CSV. It intelligently looks for columns named 'Amount', 'Cost', or 'Value' and defaults to the first column if no specific header is found or detected.
-*   **Responsive Design:** Utilizes Tailwind CSS for a clean, mobile-first, and responsive user interface.
-*   **Clear Display:** Presents the calculated total sum in an easy-to-read format.
-*   **Error Handling:** Basic error handling for file loading and parsing issues.
+## 📋 Overview
 
-## Technologies Used
-*   **HTML5:** For the basic structure of the webpage.
-*   **Tailwind CSS (CDN):** For utility-first styling and responsive design.
-*   **JavaScript (ES6+):** For fetching, parsing, and calculating data from the CSV file.
+This project is a lightweight web application designed to process and display sales data. It reads financial information from a `data.csv` file, calculates the total sum of the sales figures, and dynamically renders the aggregate total on a visually appealing webpage built with Tailwind CSS. It provides a quick and efficient way to summarize sales data at a glance.
 
-## Setup
+## ✨ Features
+
+*   **CSV Data Ingestion**: Reads and processes numerical data directly from a `data.csv` file.
+*   **Total Sum Calculation**: Automatically calculates the sum of all relevant figures within the CSV.
+*   **Dynamic Display**: Presents the calculated total sum prominently on the webpage.
+*   **Modern UI**: Utilizes Tailwind CSS for a clean, responsive, and maintainable user interface.
+*   **Client-Side Processing**: All data processing is handled within the browser for quick feedback.
+
+## 🛠️ Technologies Used
+
+*   **HTML5**: For structuring the content of the webpage.
+*   **Tailwind CSS**: A utility-first CSS framework for rapid UI development and styling.
+*   **JavaScript**: Powers the data reading, calculation, and dynamic content updates.
+
+## 📦 Setup
+
 To run this project locally, follow these steps:
 
-1.  **Clone the repository (or download the files):**
+1.  **Clone the Repository**:
     ```bash
-    git clone <repository_url>
-    cd csv-data-sum-calculator
+    git clone https://github.com/Shubham30000/sales-analyzer-shubham-test.git
     ```
-    (Replace `<repository_url>` with your actual repository URL if applicable)
 
-2.  **Ensure `data.csv` is present:** Make sure the `data.csv` file is in the root directory of the project, alongside `index.html`.
-    *   **Example `data.csv` format:**
-        ```csv
-        Amount
-        100.50
-        20.00
-        5.75
-        ```
-        OR
-        ```csv
-        Item,Amount,Quantity
-        Apples,10.00,5
-        Bananas,25.50,2
-        Oranges,7.25,10
-        ```
-        (The script will sum the 'Amount' column in the second example, or the first column if no such header is found.)
+2.  **Navigate to the Project Directory**:
+    ```bash
+    cd sales-analyzer-shubham-test
+    ```
 
-3.  **Open `index.html`:** Simply open the `index.html` file in your web browser. There's no build step or server required as it's a static site.
+3.  **Open the Application**:
+    Simply open the `index.html` file in your preferred web browser. No server setup is required.
+    ```bash
+    open index.html
+    ```
+    (or `start index.html` on Windows, or double-click the file in your file explorer)
 
-## Usage
-Upon opening `index.html`, the application will automatically:
-1.  Fetch `data.csv` from the same directory.
-2.  Parse its contents.
-3.  Calculate the sum of the relevant numerical column.
-4.  Display the total sum in the dedicated section.
+## 💡 Usage
 
-You can modify the `data.csv` file with your own numerical data, and the page will reflect the new sum upon refresh.
+1.  **Access the Application**: Open the `index.html` file in your web browser (or visit the [live demo](https://Shubham30000.github.io/sales-analyzer-shubham-test/)).
+2.  **View Total Cost**: The webpage will automatically read `data.csv`, calculate the total sum, and display it within the `<span id='total-cost'></span>` element.
+3.  **Update Data**: To update the displayed total, modify the `data.csv` file with new numerical data. Refresh the `index.html` page in your browser to see the updated sum.
 
-## Project Structure
+## 📁 Project Structure
+
 ```
-.
-├── index.html        # The main web application file
-├── data.csv          # The data file to be read by the application
-└── README.md         # Project documentation
-└── LICENSE           # Licensing information
+sales-analyzer-shubham-test/
+├── index.html         # Main application page, includes UI and JavaScript logic
+└── data.csv           # Source data file containing sales figures
 ```
 
-## License
-This project is licensed under the MIT License. See the `LICENSE` file for details.
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/Shubham30000/sales-analyzer-shubham-test/blob/main/LICENSE) file for details.
