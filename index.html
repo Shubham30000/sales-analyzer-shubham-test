@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSV Data Sum Calculator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+    <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">CSV Data Sum</h1>
+        <p class="text-gray-600 text-center mb-4">
+            Total sum from <code class="bg-gray-200 px-1 rounded">data.csv</code>:
+        </p>
+        <div class="text-5xl font-extrabold text-blue-600 text-center mb-6">
+            $<span id="total-cost">Loading...</span>
+        </div>
+        <p class="text-sm text-gray-500 text-center">
+            This application reads numerical data from <code class="bg-gray-200 px-1 rounded">data.csv</code> and calculates the total sum.
+        </p>
+    </div>
+
+    <script>
+        async function loadAndSumCSV() {
+            try {
+                const response = await fetch('data.csv');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const text = await response.text();
+                const lines = text.trim().split('\n');
+                let totalSum = 0;
+                let headerRow = [];
+                let amountColumnIndex = -1;
+
+                if (lines.length > 0) {
+                    // Try to identify header by checking if the first line contains letters
+                    const firstLine = lines[0];
+                    const seemsLikeHeader = /[a-zA-Z]/.test(firstLine);
+
+                    let startIndex = 0;
+                    if (seemsLikeHeader) {
+                        headerRow = firstLine.split(',').map(h => h.trim());
+                        amountColumnIndex = headerRow.findIndex(h => h.toLowerCase() === 'amount' || h.toLowerCase() === 'cost' || h.toLowerCase() === 'value');
+                        startIndex = 1; // Skip header row
+                    }
+
+                    for (let i = startIndex; i < lines.length; i++) {
+                        const values = lines[i].split(',').map(v => v.trim());
+                        let valueToAdd;
+
+                        if (amountColumnIndex !== -1 && values[amountColumnIndex]) {
+                            valueToAdd = parseFloat(values[amountColumnIndex]);
+                        } else if (values[0]) { // Fallback to first column if no specific header or not found
+                            valueToAdd = parseFloat(values[0]);
+                        }
+
+                        if (!isNaN(valueToAdd)) {
+                            totalSum += valueToAdd;
+                        }
+                    }
+                }
+
+                document.getElementById('total-cost').textContent = totalSum.toFixed(2); // Format to 2 decimal places
+            } catch (error) {
+                console.error('Error loading or parsing data.csv:', error);
+                document.getElementById('total-cost').textContent = 'Error';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadAndSumCSV);
+    </script>
+</body>
+</html>
