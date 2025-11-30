@@ -12,8 +12,15 @@
         <p class="text-gray-600 text-center mb-4">
             Total sum from <code class="bg-gray-200 px-1 rounded">data.csv</code>:
         </p>
+        <div class="mb-4 flex justify-center items-center gap-2">
+            <label for="currency" class="text-gray-700">Currency:</label>
+            <select id="currency" class="p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                <option value="INR">INR</option>
+                <option value="USD">USD</option>
+            </select>
+        </div>
         <div class="text-5xl font-extrabold text-blue-600 text-center mb-6">
-            $<span id="total-cost">Loading...</span>
+            <span id="currency-symbol">₹</span><span id="total-cost">Loading...</span>
         </div>
         <p class="text-sm text-gray-500 text-center">
             This application reads numerical data from <code class="bg-gray-200 px-1 rounded">data.csv</code> and calculates the total sum.
@@ -21,6 +28,27 @@
     </div>
 
     <script>
+        let baseTotalSumINR = 0; // Global variable to store the original sum in INR
+        const INR_TO_USD_RATE = 0.012; // Example rate: 1 INR = 0.012 USD (adjust as needed)
+
+        function updateDisplayedTotal() {
+            const currencySelect = document.getElementById('currency');
+            const selectedCurrency = currencySelect.value;
+            const totalCostElement = document.getElementById('total-cost');
+            const currencySymbolElement = document.getElementById('currency-symbol');
+
+            let displayedSum = baseTotalSumINR;
+            let symbol = '₹';
+
+            if (selectedCurrency === 'USD') {
+                displayedSum = baseTotalSumINR * INR_TO_USD_RATE;
+                symbol = '$';
+            }
+
+            totalCostElement.textContent = displayedSum.toFixed(2); // Format to 2 decimal places
+            currencySymbolElement.textContent = symbol;
+        }
+
         async function loadAndSumCSV() {
             try {
                 const response = await fetch('data.csv');
@@ -29,7 +57,7 @@
                 }
                 const text = await response.text();
                 const lines = text.trim().split('\n');
-                let totalSum = 0;
+                let currentSum = 0; // Use a temporary variable for sum calculation
                 let headerRow = [];
                 let amountColumnIndex = -1;
 
@@ -56,19 +84,25 @@
                         }
 
                         if (!isNaN(valueToAdd)) {
-                            totalSum += valueToAdd;
+                            currentSum += valueToAdd;
                         }
                     }
                 }
 
-                document.getElementById('total-cost').textContent = totalSum.toFixed(2); // Format to 2 decimal places
+                baseTotalSumINR = currentSum; // Store the calculated sum in INR
+                updateDisplayedTotal(); // Call to display initial sum based on default currency
             } catch (error) {
                 console.error('Error loading or parsing data.csv:', error);
                 document.getElementById('total-cost').textContent = 'Error';
+                document.getElementById('currency-symbol').textContent = ''; // Clear symbol on error
             }
         }
 
-        document.addEventListener('DOMContentLoaded', loadAndSumCSV);
+        document.addEventListener('DOMContentLoaded', () => {
+            loadAndSumCSV();
+            // Add event listener for currency dropdown AFTER it's loaded by the DOM
+            document.getElementById('currency').addEventListener('change', updateDisplayedTotal);
+        });
     </script>
 </body>
 </html>
